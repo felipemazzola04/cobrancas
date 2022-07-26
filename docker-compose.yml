@@ -1,0 +1,28 @@
+version: '3'
+services:
+    mysql:
+        container_name: mysql_cobranca
+        image: mysql:8
+        ports:
+            - 3306:3307
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - ./db/mysql-8.0:/var/lib/mysql:rw
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=cobrancas
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=root
+    php:
+        container_name: symfony_php_cobrancas
+        build:
+            context: ./api
+            dockerfile: Dockerfile
+        ports:
+            - "8001:80"
+        volumes:
+            - ./api:/var/www/api
+        depends_on:
+            - mysql 

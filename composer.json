@@ -1,0 +1,7 @@
+{
+    "require": {
+        "drush/drush": "^11.0",
+        "doctrine/annotations": "^1.13",
+        "symfony/http-foundation": "^5.4"
+    }
+}
