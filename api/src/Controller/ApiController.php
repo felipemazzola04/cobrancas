@@ -27,15 +27,6 @@ class ApiController extends AbstractController
     public function index($credencial, $chave): Response 
     {
         $chave = hash('sha256', $chave);
-        $validarCredencial = $this->client->request(
-            'GET',
-            'https://127.0.0.1:8000/api/contas/'.$credencial.'/'.$chave
-        );
-        
-        if (empty($validarCredencial->getContent())) {
-            return $this->json(['msg' => 'Erro ao cadastrar boleto, credenciais inválidas']);
-        }
-
         $cobrancas = $this->getDoctrine()->getRepository(Cobrancas::class)
                         ->findBy(['id' => $identificador, 'credencial' => $credencial, 'chave' => $chave], ['id' => 'DESC']);
 
@@ -48,15 +39,6 @@ class ApiController extends AbstractController
     public function cobrancas($credencial, $chave, $identificador): Response 
     {
         $chave = hash('sha256', $chave);
-        $validarCredencial = $this->client->request(
-            'GET',
-            'https://127.0.0.1:8000/api/contas/'.$credencial.'/'.$chave
-        );
-        
-        if (empty($validarCredencial->getContent())) {
-            return $this->json(['msg' => 'Erro ao cadastrar boleto, credenciais inválidas']);
-        }
-
         $cobrancas = $this->getDoctrine()->getRepository(Cobrancas::class)
                        ->findBy(['id' => $identificador, 'credencial' => $credencial, 'chave' => $chave], ['id' => 'DESC']);
 
@@ -71,14 +53,7 @@ class ApiController extends AbstractController
         $data = $this->getRequestParams($request);
         $data = json_decode($data, true);
         $date = new \DateTime($data['vencimento']);
-        $validarCredencial = $this->client->request(
-            'GET',
-            'https://127.0.0.1:8000/api/contas/'.$credencial.'/'.$chave
-        );
-        
-        if (empty($validarCredencial->getContent())) {
-            return $this->json(['msg' => 'Erro ao cadastrar boleto, credenciais inválidas']);
-        }
+
         $chave = hash('sha256', $chave);
 
         $cobrancas = new Cobrancas();
@@ -115,14 +90,7 @@ class ApiController extends AbstractController
         $data = $this->getRequestParams($request);
         $data = json_decode($data, true);
         $date = new \DateTime($data['vencimento']);
-        $validarCredencial = $this->client->request(
-            'GET',
-            'https://127.0.0.1:8000/api/contas/'.$credencial.'/'.$chave
-        );
-        
-        if (empty($validarCredencial->getContent())) {
-            return $this->json(['msg' => 'Erro ao cadastrar boleto, credenciais inválidas']);
-        }
+
         $chave = hash('sha256', $chave);
         $doctrine = $this->getDoctrine();
 
@@ -184,14 +152,6 @@ class ApiController extends AbstractController
     public function delete($credencial, $chave, $identificador): Response
     {
 
-        $validarCredencial = $this->client->request(
-            'GET',
-            'https://127.0.0.1:8000/api/contas/'.$credencial.'/'.$chave
-        );
-        
-        if (empty($validarCredencial->getContent())) {
-            return $this->json(['msg' => 'Erro ao cadastrar boleto, credenciais inválidas']);
-        }
 
         $chave = hash('sha256', $chave);
         $doctrine = $this->getDoctrine();
